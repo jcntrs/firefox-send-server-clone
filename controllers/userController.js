@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const Users = require('../models/Users');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
@@ -10,14 +10,14 @@ exports.createUser = async (req, res) => {
     }
 
     const { email, password } = req.body;
-    const userExists = await User.findOne({ email });
+    const userExists = await Users.findOne({ email });
 
     if (userExists) {
         return res.status(400).json({ msg: 'El usuario ya se encuentra registrado.' });
     }
 
     try {
-        const user = new User(req.body);
+        const user = new Users(req.body);
         const salt = await bcrypt.genSalt(10);
 
         user.password = await bcrypt.hash(password, salt);

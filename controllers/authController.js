@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const Users = require('../models/Users');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -12,7 +12,7 @@ exports.authenticateUser = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await Users.findOne({ email });
 
     if (!user) {
         res.status(401).json({ msg: 'El usuario no existe' });
@@ -25,7 +25,7 @@ exports.authenticateUser = async (req, res, next) => {
     }
 
     const token = jwt.sign({
-        userID: user._id,
+        id: user._id,
         name: user.name,
         email: user.email
     }, process.env.SECRET, { expiresIn: '8h' });
