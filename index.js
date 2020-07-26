@@ -10,6 +10,7 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 
 app.use('/api/usuarios', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`El servidor esta funcionando en el puerto ${port}`);
