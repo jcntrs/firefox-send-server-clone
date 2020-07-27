@@ -39,3 +39,23 @@ exports.createLink = async (req, res) => {
         res.status(500).json({ msg: 'Hubo un error.' });
     }
 }
+
+exports.getLink = async (req, res, next) => {
+    const { url } = req.params;
+    const link = await Links.findOne({ url });
+
+    if (!link) {
+        return res.status(404).json({ msg: 'Enlace no existe' });
+    }
+
+    const { downloads, name } = link;
+
+    if (downloads === 1) {
+        req.filename = name;
+        await Links.findOneAndRemove(url);
+        next();
+    } else {
+        link.downloads--;
+        await link.save();
+    }
+}

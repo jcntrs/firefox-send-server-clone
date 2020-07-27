@@ -12,6 +12,7 @@ app.use(express.json());
 app.use('/api/usuarios', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/enlaces', require('./routes/links'));
+app.use('/api/archivos', require('./routes/files'));
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`El servidor esta funcionando en el puerto ${port}`);
