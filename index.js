@@ -1,13 +1,22 @@
 const express = require('express');
 const connectDB = require('./config/database');
+const cors = require('cors');
 const app = express();
+const port = process.env.PORT || 4000;
 
 connectDB();
 
-const port = process.env.PORT || 4000;
+const optionsCors = {
+    origin: process.env.FRONTEND_URL
+}
 
-// Habilitar la lectura de valores en body
+app.use(cors(optionsCors));
+
+// Habilitar la lectura de valores en body en formato json
 app.use(express.json());
+
+// Habilitar carpeta pública
+app.use(express.static('uploads'));
 
 app.use('/api/usuarios', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
